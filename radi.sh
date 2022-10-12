@@ -132,7 +132,7 @@ logout_radiko() {
 #   1: Failed
 #######################################
 radiko_authorize() {
-  radiko_session=$1  
+  radiko_session=$1
 
   # Define authorize key value (from https://radiko.jp/apps/js/playerCommon.js)
   RADIKO_AUTHKEY_VALUE="bcd151073c03b352e1ef2fd66c32209da9ca0afa"
@@ -355,13 +355,13 @@ if [ "${type}" = "shiburadi" ]; then
 fi
 if [ -z "${output}" ]; then
   output="${station_id}_$(date +%Y%m%d%H%M%S).${file_ext}"
-else
-  # Fix file path extension
-  echo "${output}" | grep -q -E "\\.${file_ext}$"
-  ret=$?
-  if [ ${ret} -ne 0 ]; then
-    output="${output}.${file_ext}"
-  fi
+# else
+#   # Fix file path extension --> off
+#   echo "${output}" | grep -q -E "\\.${file_ext}$"
+#   ret=$?
+#   if [ ${ret} -ne 0 ]; then
+#     output="${output}.${file_ext}"
+#   fi
 fi
 
 playlist_uri=""
@@ -419,6 +419,7 @@ if [ "${type}" = "radiko" ]; then
       -fflags +discardcorrupt \
       -headers "X-Radiko-Authtoken: ${radiko_authtoken}" \
       -i "${playlist_uri}" \
+      -f adts \
       -acodec copy \
       -vn \
       -bsf:a aac_adtstoasc \
